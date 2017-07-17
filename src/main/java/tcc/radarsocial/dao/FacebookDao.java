@@ -17,6 +17,7 @@ import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.QueryBuilder;
 import com.mongodb.util.JSON;
 
 import tcc.radarsocial.db.ConnectionFactory;
@@ -87,24 +88,19 @@ public class FacebookDao {
 	}
 	
 	public DBCursor buscaPorFiltro(String portal, String dataInicial, String dataFinal) throws ParseException{
-				
-//		BasicDBObject regexQuery = new BasicDBObject();
-//		regexQuery.put("nomePagina",new BasicDBObject("$regex", "/.*"+portal+".*/").append("$options", "i"));
-//		DBCursor cursor = collection.find(regexQuery);
-//		
+						
 		DBObject clausePortal = new BasicDBObject("nomePagina", portal); 
-		DBObject clauseData = (DBObject) JSON.parse("{'dataGravacao' : { '$gte' : {	\"ISODate\": \"2017-04-30'T'14:10:31.767'Z'\" } , '$lt' : {	\"ISODate\": \"2017-04-30'T'14:10:32.767'Z'\"}}}");
 		
-//		DBObject dateQuery = BasicDBObjectBuilder.start("$gte", dataInicial).add("$lte", dataFinal).get();
-//		query.put("dataGravacao", dateQuery);
-		//DBObject clauseData = new BasicDBObject("dataGravacao", new BasicDBObject("$gte",dataInicial).append("$lt",dataFinal));
+		DBObject clauseData = null;
+		if(!dataInicial.isEmpty() && !dataFinal.isEmpty())
+			clauseData = (DBObject) JSON.parse("{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
+	
 		
-//		DBObject clause2 = new BasicDBObject("post_description", regex);    
 		BasicDBList and = new BasicDBList();
 		and.add(clausePortal);
-		and.add(clauseData);
-//		or.add(clause2);
 		
+		if(clauseData != null)
+			and.add(clauseData);
 
 		DBObject query = new BasicDBObject("$and", and);
 		
