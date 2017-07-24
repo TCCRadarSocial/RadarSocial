@@ -1,5 +1,7 @@
 package tcc.radarsocial.model;
 
+import java.util.Date;
+
 public class PostFacebook {
 
 	private String idPost;
@@ -11,6 +13,14 @@ public class PostFacebook {
 	private String imagem;
 	private String link;
 	private String mensagem;
+	private String createdDate;
+	
+	public String getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
+	}
 	public String getIdPost() {
 		return idPost;
 	}

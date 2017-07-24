@@ -48,7 +48,7 @@ public class FacebookDao {
 	
 	
 
-	public void gravarDadosFacebook(Pagina pag, PostFacebook post){
+	public void gravarDadosFacebook(Pagina pag, PostFacebook post) throws ParseException{
 		
 		System.out.println("BasicDBObject example...");
 		BasicDBObject document = new BasicDBObject();
@@ -62,6 +62,12 @@ public class FacebookDao {
 		document.put("imagem", post.getImagem());
 		document.put("link", post.getLink());
 		document.put("dataGravacao", new Date());
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
+		Date date = formatter.parse(post.getCreatedDate());
+        date = new Date(date.getTime() - 180 * 60 * 1000);
+         
+		document.put("dataCriacao", date);
 		
 		collection.insert(document);
 	}
@@ -87,20 +93,28 @@ public class FacebookDao {
 		
 	}
 	
-	public DBCursor buscaPorFiltro(String portal, String dataInicial, String dataFinal) throws ParseException{
-						
-		DBObject clausePortal = new BasicDBObject("nomePagina", portal); 
+	public DBCursor buscaPorFiltro(String portal, String dataInicial, String dataFinal, String link) throws ParseException{
 		
+		DBObject clausePortal = null;
 		DBObject clauseData = null;
-		if(!dataInicial.isEmpty() && !dataFinal.isEmpty())
-			clauseData = (DBObject) JSON.parse("{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
-	
-		
+		DBObject clauseLink = null;
 		BasicDBList and = new BasicDBList();
-		and.add(clausePortal);
 		
-		if(clauseData != null)
+		if(!portal.isEmpty()){
+			clausePortal = new BasicDBObject("nomePagina", portal); 
+			and.add(clausePortal);
+		}
+		
+		if(!dataInicial.isEmpty() && !dataFinal.isEmpty()){
+			clauseData = (DBObject) JSON.parse("{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
 			and.add(clauseData);
+		}
+		
+		if(!link.isEmpty()){
+			clauseLink = new BasicDBObject("link", link); 
+			and.add(clauseLink);
+		}
+				
 
 		DBObject query = new BasicDBObject("$and", and);
 		
