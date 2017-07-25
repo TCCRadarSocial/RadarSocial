@@ -78,7 +78,22 @@ public class FacebookDao {
 		return cursor;
 	}
 	
-	public AggregationOutput buscarTodosPortais(){
+	public AggregationOutput buscarTodosPortais(String portal,String dataInicial, String dataFinal,String link){
+		
+		BasicDBObject match = null;
+		
+		if(link.isEmpty() && portal.isEmpty()){
+			match = (BasicDBObject) JSON.parse("{ \"$match\":"
+				+ "{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} }}}");
+		}
+		else if(!link.isEmpty() && portal.isEmpty()){
+			match = (BasicDBObject) JSON.parse("{ \"$match\": {\"$and\": ["
+				+ "{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"link\": \""+link+"\"}]}}");
+		}
+		else if(!portal.isEmpty()){
+			match = (BasicDBObject) JSON.parse("{ \"$match\": {\"$and\": ["
+				+ "{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"nomePagina\": \""+portal+"\"}]}}");
+		}
 		
 		// $group operation
 		DBObject groupFields = new BasicDBObject( "_id", "$nomePagina");
@@ -86,8 +101,9 @@ public class FacebookDao {
 
 		DBObject group = new BasicDBObject("$group", groupFields);
 
+		
 		// run aggregation
-		AggregationOutput output = collection.aggregate( group );
+		AggregationOutput output = collection.aggregate(match, group );
 		
 			return output;
 		
@@ -98,6 +114,7 @@ public class FacebookDao {
 		DBObject clausePortal = null;
 		DBObject clauseData = null;
 		DBObject clauseLink = null;
+		
 		BasicDBList and = new BasicDBList();
 		
 		if(!portal.isEmpty()){
@@ -116,6 +133,10 @@ public class FacebookDao {
 		}
 				
 
+//		clauseAggregatePortais = (DBObject) JSON.parse(buscarTodosPortais().toString());
+//		and.add(clauseAggregatePortais);
+		
+		
 		DBObject query = new BasicDBObject("$and", and);
 		
 		DBCursor cursor = collection.find(query);
