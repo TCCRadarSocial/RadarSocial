@@ -48,6 +48,7 @@ public class IntegracaoTwitter {
 			tweet.setTexto(st.getText());
 			tweet.setRetweets(st.getRetweetCount());
 			tweet.setFavorites(st.getFavoriteCount());
+			tweet.setDataCriacao(st.getCreatedAt());
 			
 			if(st.getMediaEntities().length!=0)
 				tweet.setImagem(st.getMediaEntities()[0].getMediaURL());

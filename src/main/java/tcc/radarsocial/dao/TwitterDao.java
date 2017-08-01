@@ -19,6 +19,7 @@ public class TwitterDao {
 
 	ConnectionFactory con = new ConnectionFactory();
 	DBCollection collection = ConnectionFactory.connectDB().getCollection("TwitterMetricas");
+	DBCollection collectionFeeds = ConnectionFactory.connectDB().getCollection("FeedsMetricas");
 	
 	public void gravarDadosTwitter(Twitter twitter, Tweet tweet){
 		
@@ -26,7 +27,9 @@ public class TwitterDao {
 		document.put("idTwitter", twitter.getIdTwitter());
 		document.put("nomeTwitter", twitter.getNome());
 		document.put("idTweet", tweet.getIdTweet());
+				
 		document.put("dataGravacao", new Date());
+		document.put("dataCriacao", tweet.getDataCriacao());
 		document.put("retweets", tweet.getRetweets());
 		document.put("favorites", tweet.getFavorites());
 		document.put("imagem", tweet.getImagem());
@@ -34,6 +37,7 @@ public class TwitterDao {
 		document.put("texto", tweet.getTexto());
 
 		collection.insert(document);
+		collectionFeeds.insert(document);
 	}
 	public AggregationOutput buscarTodosPortais(String portal,String dataInicial, String dataFinal,String link){
 		

@@ -1,5 +1,7 @@
 package tcc.radarsocial.model;
 
+import java.util.Date;
+
 public class Tweet {
 
 	private long idTweet;
@@ -8,6 +10,14 @@ public class Tweet {
 	private int favorites;
 	private String imagem;
 	private String link;
+	private Date dataCriacao;
+	
+	public Date getDataCriacao() {
+		return dataCriacao;
+	}
+	public void setDataCriacao(Date dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
 	public long getIdTweet() {
 		return idTweet;
 	}

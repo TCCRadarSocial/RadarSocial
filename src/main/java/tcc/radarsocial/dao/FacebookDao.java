@@ -45,7 +45,7 @@ public class FacebookDao {
 		
 	ConnectionFactory con = new ConnectionFactory();
 	DBCollection collection = ConnectionFactory.connectDB().getCollection("FacebookMetricas");
-	
+	DBCollection collectionFeeds = ConnectionFactory.connectDB().getCollection("FeedsMetricas");
 	
 
 	public void gravarDadosFacebook(Pagina pag, PostFacebook post) throws ParseException{
@@ -70,6 +70,7 @@ public class FacebookDao {
 		document.put("dataCriacao", date);
 		
 		collection.insert(document);
+		collectionFeeds.insert(document);
 	}
 	public DBCursor buscarTodosDadosFacebook(){
 		
