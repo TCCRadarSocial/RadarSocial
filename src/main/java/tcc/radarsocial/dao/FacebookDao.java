@@ -50,7 +50,7 @@ public class FacebookDao {
 
 	public void gravarDadosFacebook(Pagina pag, PostFacebook post) throws ParseException{
 		
-		System.out.println("BasicDBObject example...");
+		System.out.println("Gravando Facebook...");
 		BasicDBObject document = new BasicDBObject();
 		document.put("idPagina", pag.getIdPagina());
 		document.put("nomePagina", pag.getNome());
@@ -61,6 +61,7 @@ public class FacebookDao {
 		document.put("reactions", post.getReactions());
 		document.put("imagem", post.getImagem());
 		document.put("link", post.getLink());
+		document.put("mensagem", post.getMensagem());
 		document.put("dataGravacao", new Date());
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
