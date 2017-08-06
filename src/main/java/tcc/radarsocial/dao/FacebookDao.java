@@ -80,6 +80,22 @@ public class FacebookDao {
 		return cursor;
 	}
 	
+    public AggregationOutput buscarTodosPortaisSemFiltro(){
+        
+        // $group operation
+        DBObject groupFields = new BasicDBObject( "_id", "$nomePagina");
+        groupFields.put("sum", new BasicDBObject( "$sum", "$reactions"));
+
+        DBObject group = new BasicDBObject("$group", groupFields);
+
+        // run aggregation
+        AggregationOutput output = collection.aggregate( group );
+        
+            return output;
+    }
+
+	
+	
 	public AggregationOutput buscarTodosPortais(String portal,String dataInicial, String dataFinal,String link){
 		
 		BasicDBObject match = null;
