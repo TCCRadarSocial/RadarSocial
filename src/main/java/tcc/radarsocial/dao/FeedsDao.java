@@ -20,6 +20,7 @@ public class FeedsDao {
 		
 		DBObject clausePortal = null;
 		DBObject clauseData = null;
+		DBObject clauseRede = null;
 		
 		BasicDBList and = new BasicDBList();
 		
@@ -28,12 +29,18 @@ public class FeedsDao {
 			if(!portal.isEmpty()){
 				clausePortal = new BasicDBObject("nomePagina", portal); 
 				and.add(clausePortal);
+			}else{
+				clauseRede = new BasicDBObject("tipoRede", "facebook"); 
+				and.add(clauseRede);
 			}
 		}
 		else if(redeSocial.equals("Twitter")){
 			if(!portal.isEmpty()){
 				clausePortal = new BasicDBObject("nomeTwitter", portal); 
 				and.add(clausePortal);
+			}else{
+				clauseRede = new BasicDBObject("tipoRede", "twitter"); 
+				and.add(clauseRede);
 			}
 		}
 		if(!dataInicial.isEmpty() && !dataFinal.isEmpty()){

@@ -35,6 +35,8 @@ public class TwitterDao {
 		document.put("imagem", tweet.getImagem());
 		document.put("link", tweet.getLink());
 		document.put("texto", tweet.getTexto());
+		document.put("tipoRede", "twitter");
+		
 
 		collection.insert(document);
 		collectionFeeds.insert(document);
