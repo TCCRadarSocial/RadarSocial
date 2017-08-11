@@ -39,6 +39,22 @@ public class TwitterDao {
 		collection.insert(document);
 		collectionFeeds.insert(document);
 	}
+	
+	
+	public AggregationOutput buscarTodosPortaisSemFiltro(){
+        
+        // $group operation
+        DBObject groupFields = new BasicDBObject( "_id", "$nomeTwitter");
+        groupFields.put("sum", new BasicDBObject( "$sum", "$reactions"));
+
+        DBObject group = new BasicDBObject("$group", groupFields);
+
+        // run aggregation
+        AggregationOutput output = collection.aggregate( group );
+        
+            return output;
+    }
+	
 	public AggregationOutput buscarTodosPortais(String portal,String dataInicial, String dataFinal,String link){
 		
 		BasicDBObject match = null;

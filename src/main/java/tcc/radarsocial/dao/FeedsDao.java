@@ -37,7 +37,7 @@ public class FeedsDao {
 			}
 		}
 		if(!dataInicial.isEmpty() && !dataFinal.isEmpty()){
-			clauseData = (DBObject) JSON.parse("{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
+			clauseData = (DBObject) JSON.parse("{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
 			and.add(clauseData);
 		}
 				
