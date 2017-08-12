@@ -49,10 +49,11 @@ public class IntegracaoTwitter {
 			tweet.setRetweets(st.getRetweetCount());
 			tweet.setFavorites(st.getFavoriteCount());
 			tweet.setDataCriacao(st.getCreatedAt());
+			tweet.setImagem(null);
 			
-			if(st.getMediaEntities().length!=0)
+			if(st.getMediaEntities().length!=0){
 				tweet.setImagem(st.getMediaEntities()[0].getMediaURL());
-			
+			}
 			tweet.setLink("https://twitter.com/"+twitterProfile+"/status/"+st.getId());	
 			
 			TwitterDao dao = new TwitterDao();
