@@ -63,6 +63,7 @@ public class FacebookDao {
 		document.put("link", post.getLink());
 		document.put("mensagem", post.getMensagem());
 		document.put("dataGravacao", new Date());
+		document.put("tipoRede", "facebook");
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
 		Date date = formatter.parse(post.getCreatedDate());

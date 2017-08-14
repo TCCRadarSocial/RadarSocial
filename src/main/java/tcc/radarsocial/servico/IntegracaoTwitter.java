@@ -49,12 +49,10 @@ public class IntegracaoTwitter {
 			tweet.setRetweets(st.getRetweetCount());
 			tweet.setFavorites(st.getFavoriteCount());
 			tweet.setDataCriacao(st.getCreatedAt());
+			tweet.setImagem(null);
 			
 			if(st.getMediaEntities().length!=0){
-//				System.out.println(st.getMediaEntities()[0].getMediaURL());
 				tweet.setImagem(st.getMediaEntities()[0].getMediaURL());
-			}else{
-				tweet.setImagem(null);
 			}
 			tweet.setLink("https://twitter.com/"+twitterProfile+"/status/"+st.getId());	
 			
