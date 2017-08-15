@@ -53,6 +53,8 @@ public class IntegracaoTwitter {
 			
 			if(st.getMediaEntities().length!=0){
 				tweet.setImagem(st.getMediaEntities()[0].getMediaURL());
+			}else{
+				tweet.setImagem(null);
 			}
 			tweet.setLink("https://twitter.com/"+twitterProfile+"/status/"+st.getId());	
 			
