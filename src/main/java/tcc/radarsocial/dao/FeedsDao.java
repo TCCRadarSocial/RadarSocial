@@ -16,14 +16,14 @@ public class FeedsDao {
 
 	DBCollection collection = ConnectionFactory.connectDB().getCollection("FeedsMetricas");
 	
-	public DBCursor buscaPorFiltro(String portal, String dataInicial, String dataFinal,String redeSocial) throws ParseException{
+	public DBCursor buscaPorFiltro(String portal, String dataInicial, String dataFinal,String redeSocial, String orderBy) throws ParseException{
 		
 		DBObject clausePortal = null;
 		DBObject clauseData = null;
 		DBObject clauseRede = null;
 		
 		BasicDBList and = new BasicDBList();
-		
+				
 		if(redeSocial.equals("Facebook")){
 		
 			if(!portal.isEmpty()){
@@ -50,7 +50,7 @@ public class FeedsDao {
 			
 		DBObject query = new BasicDBObject("$and", and);
 		
-		DBCursor cursor = collection.find(query);
+		DBCursor cursor = collection.find(query).sort(new BasicDBObject(orderBy, -1));
 		
 		return cursor;
 	}
