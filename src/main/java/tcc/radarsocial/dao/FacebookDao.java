@@ -72,7 +72,14 @@ public class FacebookDao {
 		document.put("dataCriacao", date);
 		
 		collection.insert(document);
-		collectionFeeds.insert(document);
+		
+		//FeedsDao feeds = new FeedsDao();
+		
+//		DBCursor cursor = feeds.buscaPorFiltroPorLink(post.getLink().toString());
+//		if(JSON.serialize(cursor) != "")
+//			collectionFeeds.update(document,cursor.curr());
+//		else
+//			collectionFeeds.insert(document);
 	}
 	public DBCursor buscarTodosDadosFacebook(){
 		
