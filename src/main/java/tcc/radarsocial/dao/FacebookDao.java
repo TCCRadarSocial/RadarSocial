@@ -73,13 +73,13 @@ public class FacebookDao {
 		
 		collection.insert(document);
 		
-		//FeedsDao feeds = new FeedsDao();
-		
+//		FeedsDao feeds = new FeedsDao();
+//		
 //		DBCursor cursor = feeds.buscaPorFiltroPorLink(post.getLink().toString());
-//		if(JSON.serialize(cursor) != "")
+//		if(JSON.serialize(cursor) != "[ ]")
 //			collectionFeeds.update(document,cursor.curr());
 //		else
-//			collectionFeeds.insert(document);
+			collectionFeeds.insert(document);
 	}
 	public DBCursor buscarTodosDadosFacebook(){
 		
