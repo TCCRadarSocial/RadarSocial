@@ -1,6 +1,10 @@
 package tcc.radarsocial.servico;
 
+import java.util.Arrays;
 import java.util.List;
+
+import com.restfb.Parameter;
+import com.restfb.json.JsonObject;
 
 import tcc.radarsocial.dao.TwitterDao;
 import tcc.radarsocial.model.Tweet;
@@ -62,5 +66,24 @@ public class IntegracaoTwitter {
 			dao.gravarDadosTwitter(twitterObj,tweet);
 		}
 		
+	}
+	
+	public Boolean hasTwitter(ConfigurationBuilder cb,String paginaTwitter) throws TwitterException{
+		
+		Boolean response = false;
+		TwitterFactory tf = new TwitterFactory(cb.build());
+		
+		twitter4j.Twitter twitter = tf.getInstance();
+		
+		Paging paging = new Paging(1, 100);
+
+		List<Status> status = twitter.getUserTimeline(paginaTwitter,paging);
+				
+		if(status != null)
+			response = true;
+		else 
+			response = false;
+			
+		return response;
 	}
 }

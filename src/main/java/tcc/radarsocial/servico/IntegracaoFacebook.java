@@ -64,6 +64,20 @@ public class IntegracaoFacebook extends DefaultFacebookClient{
                  FacebookDao dao = new FacebookDao();
      			 dao.gravarDadosFacebook(pag,postFacebook);
             }
+            
        }
+	}
+	
+	public Boolean hasPage(String paginaFacebook){
+		
+		Boolean response = false;
+		JsonObject pagina =  this.fetchObjects(Arrays.asList(paginaFacebook),JsonObject.class, Parameter.with("fields","id,name"));
+				
+		if(pagina != null)
+			response = true;
+		else 
+			response = false;
+			
+		return response;
 	}
 }
