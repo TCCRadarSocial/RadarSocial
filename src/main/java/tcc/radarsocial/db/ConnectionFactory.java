@@ -17,7 +17,7 @@ public class ConnectionFactory {
 		Mongo mongo = new Mongo("localhost", 27017);
 		db = mongo.getDB("RadarSocial");
 	
-		DBCollection collection = db.getCollection("dummyColl");
+		//DBCollection collection = db.getCollection("dummyColl");
 		
 		}catch (UnknownHostException e) {
 			e.printStackTrace();

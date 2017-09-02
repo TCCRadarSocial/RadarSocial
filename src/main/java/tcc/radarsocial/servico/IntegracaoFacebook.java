@@ -71,12 +71,14 @@ public class IntegracaoFacebook extends DefaultFacebookClient{
 	public Boolean hasPage(String paginaFacebook){
 		
 		Boolean response = false;
-		JsonObject pagina =  this.fetchObjects(Arrays.asList(paginaFacebook),JsonObject.class, Parameter.with("fields","id,name"));
-				
-		if(pagina != null)
+		
+		try{
+			JsonObject pagina =  this.fetchObjects(Arrays.asList(paginaFacebook),JsonObject.class, Parameter.with("fields","id,name"));
 			response = true;
-		else 
+		}
+		catch(Exception e){
 			response = false;
+		}
 			
 		return response;
 	}
