@@ -30,7 +30,7 @@ public class IntegracaoFacebook extends DefaultFacebookClient{
 		String nomePagina = pagina.getJsonObject(paginaFacebook).getString("name");
 		int id = pagina.getJsonObject(paginaFacebook).getInt("id");
 		
-		Connection<Post> pageFeed = this.fetchConnection("bbcbrasil" + "/feed", Post.class);
+		Connection<Post> pageFeed = this.fetchConnection(paginaFacebook + "/feed", Post.class);
 		
 		Pagina pag = new Pagina();
 		PostFacebook postFacebook = new PostFacebook();
