@@ -24,23 +24,6 @@ import tcc.radarsocial.db.ConnectionFactory;
 import tcc.radarsocial.model.Pagina;
 import tcc.radarsocial.model.PostFacebook;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;	
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
-
-
 public class FacebookDao {
 		
 	ConnectionFactory con = new ConnectionFactory();
@@ -91,10 +74,10 @@ public class FacebookDao {
     public AggregationOutput buscarTodosPortaisSemFiltro(){
         
         // $group operation
-        DBObject groupFields = new BasicDBObject( "_id", "$nomePagina");
+        BasicDBObject groupFields = new BasicDBObject( "_id", "$nomePagina");
         groupFields.put("sum", new BasicDBObject( "$sum", "$reactions"));
 
-        DBObject group = new BasicDBObject("$group", groupFields);
+        BasicDBObject group = new BasicDBObject("$group", groupFields);
 
         // run aggregation
         AggregationOutput output = collection.aggregate( group );
@@ -122,10 +105,10 @@ public class FacebookDao {
 		}
 		
 		// $group operation
-		DBObject groupFields = new BasicDBObject( "_id", "$nomePagina");
+		BasicDBObject groupFields = new BasicDBObject( "_id", "$nomePagina");
 		groupFields.put("sum", new BasicDBObject( "$sum", "$reactions"));
 
-		DBObject group = new BasicDBObject("$group", groupFields);
+		BasicDBObject group = new BasicDBObject("$group", groupFields);
 
 		
 		// run aggregation
@@ -137,9 +120,9 @@ public class FacebookDao {
 	
 	public DBCursor buscaPorFiltro(String portal, String dataInicial, String dataFinal, String link) throws ParseException{
 		
-		DBObject clausePortal = null;
-		DBObject clauseData = null;
-		DBObject clauseLink = null;
+		BasicDBObject clausePortal = null;
+		BasicDBObject clauseData = null;
+		BasicDBObject clauseLink = null;
 		
 		BasicDBList and = new BasicDBList();
 		
@@ -149,7 +132,7 @@ public class FacebookDao {
 		}
 		
 		if(!dataInicial.isEmpty() && !dataFinal.isEmpty()){
-			clauseData = (DBObject) JSON.parse("{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
+			clauseData = (BasicDBObject) JSON.parse("{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
 			and.add(clauseData);
 		}
 		
@@ -163,7 +146,7 @@ public class FacebookDao {
 //		and.add(clauseAggregatePortais);
 		
 		
-		DBObject query = new BasicDBObject("$and", and);
+		BasicDBObject query = new BasicDBObject("$and", and);
 		
 		DBCursor cursor = collection.find(query);
 		

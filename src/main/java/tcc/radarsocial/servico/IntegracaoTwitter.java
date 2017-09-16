@@ -71,6 +71,10 @@ public class IntegracaoTwitter {
 	public Boolean hasTwitter(ConfigurationBuilder cb,String paginaTwitter) throws TwitterException{
 		
 		Boolean response = false;
+		
+		try{
+			
+		
 		TwitterFactory tf = new TwitterFactory(cb.build());
 		
 		twitter4j.Twitter twitter = tf.getInstance();
@@ -78,11 +82,10 @@ public class IntegracaoTwitter {
 		Paging paging = new Paging(1, 100);
 
 		List<Status> status = twitter.getUserTimeline(paginaTwitter,paging);
-				
-		if(status != null)
 			response = true;
-		else 
+		}catch(Exception e){
 			response = false;
+		}
 			
 		return response;
 	}
