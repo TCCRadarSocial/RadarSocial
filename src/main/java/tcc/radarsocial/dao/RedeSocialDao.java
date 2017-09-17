@@ -13,30 +13,31 @@ import tcc.radarsocial.db.ConnectionFactory;
 
 public class RedeSocialDao {
 	
-	public String listar(){
-		AggregationOutput output = null;
+//	public String listar(){
+//		AggregationOutput output = null;
 //		DBCollection collection = ConnectionFactory.connectDB().getCollection("FeedsMetricas");
 //        // $group operation
-//        BasicDBObject groupFieldsFace = new BasicDBObject( "_id", "$nomePagina");
-//        groupFieldsFace.put("sum", new BasicDBObject( "$sum", "$reactions"));
-//
-//        BasicDBObject groupFieldsTwitter = new BasicDBObject( "_id", "$nomeTwitter");
-//        groupFieldsTwitter.put("sum", new BasicDBObject( "$sum", "$retweets"));
-//        
+//        BasicDBObject groupFieldsFace = new BasicDBObject( "_id", new BasicDBObject("$nomePagina","$nomeTwitter"));
+//        groupFieldsFace.put("sum", new BasicDBObject( "$sum", new BasicDBObject("$reactions","$retweets")));
+////
+////        BasicDBObject groupFieldsTwitter = new BasicDBObject( "_id", "$nomeTwitter");
+////        groupFieldsTwitter.put("sum", new BasicDBObject( "$sum", "$retweets"));
+////        
 //        BasicDBObject groupFace = new BasicDBObject("$group", groupFieldsFace);
-//        BasicDBObject groupTwitter = new BasicDBObject("$group", groupFieldsTwitter);
-//        
-//        
-//        List<BasicDBObject> aggregateList = new ArrayList<BasicDBObject>();
-//        aggregateList.add(groupFace);
-//        aggregateList.add(groupTwitter);
-//        
-//        
-//        // run aggregation
-//        output = collection.aggregate(aggregateList );
-       
-        return output.results().toString();
-            
-    }
+////        BasicDBObject groupTwitter = new BasicDBObject("$group", groupFieldsTwitter);
+////        
+////        
+////        List<BasicDBObject> aggregateList = new ArrayList<BasicDBObject>();
+////        aggregateList.add(groupFace);
+////        aggregateList.add(groupTwitter);
+////        
+////        
+////        // run aggregation
+////        output = collection.aggregate(aggregateList );
+//        output = collection.aggregate(groupFace );
+//       
+//        return output.results().toString();
+//            
+//    }
 
 }
