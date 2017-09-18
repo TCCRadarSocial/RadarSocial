@@ -48,6 +48,7 @@ public class TwitterDao {
         // $group operation
         DBObject groupFields = new BasicDBObject( "_id", "$nomeTwitter");
         groupFields.put("sum", new BasicDBObject( "$sum", "$reactions"));
+        groupFields.put("tipo", new BasicDBObject("$first", "$tipoRede"));
 
         DBObject group = new BasicDBObject("$group", groupFields);
 
@@ -121,6 +122,14 @@ public class TwitterDao {
 		DBCursor cursor = collection.find(query);
 		
 		return cursor;
+	}
+	
+	public void excluirRegistros(String nome){
+		
+		BasicDBObject query = new BasicDBObject();
+		query.put("nomeTwitter", nome);
+		collection.remove(query);
+		
 	}
 
 }

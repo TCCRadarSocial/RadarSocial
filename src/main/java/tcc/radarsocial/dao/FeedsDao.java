@@ -56,7 +56,7 @@ public class FeedsDao {
 	}
 	
 	
-public DBCursor buscaPorFiltroPorLink(String link) throws ParseException{
+	public DBCursor buscaPorFiltroPorLink(String link) throws ParseException{
 				
 		BasicDBList and = new BasicDBList();
 		
@@ -68,6 +68,20 @@ public DBCursor buscaPorFiltroPorLink(String link) throws ParseException{
 		DBCursor cursor = collection.find(query);
 		
 		return cursor;
+	}
+	
+	public void excluirRegistros(String nome,String tipo){
+		
+		BasicDBObject query = new BasicDBObject();
+		
+		if(tipo.equals("facebook")){
+			query.put("nomePagina", nome);
+		}else if(tipo.equals("twitter")){
+			query.put("nomeTwitter", nome);
+		}
+				
+		collection.remove(query);
+		
 	}
 	
 }

@@ -76,6 +76,7 @@ public class FacebookDao {
         // $group operation
         BasicDBObject groupFields = new BasicDBObject( "_id", "$nomePagina");
         groupFields.put("sum", new BasicDBObject( "$sum", "$reactions"));
+        groupFields.put("tipo", new BasicDBObject("$first", "$tipoRede"));
 
         BasicDBObject group = new BasicDBObject("$group", groupFields);
 
@@ -151,6 +152,14 @@ public class FacebookDao {
 		DBCursor cursor = collection.find(query);
 		
 		return cursor;
+	}
+	
+	public void excluirRegistros(String nome){
+		
+		BasicDBObject query = new BasicDBObject();
+		query.put("nomePagina", nome);
+		collection.remove(query);
+		
 	}
 	
 }
