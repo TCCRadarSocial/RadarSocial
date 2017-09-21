@@ -37,6 +37,7 @@ public class FacebookDao {
 		BasicDBObject document = new BasicDBObject();
 		document.put("idPagina", pag.getIdPagina());
 		document.put("nomePagina", pag.getNome());
+		document.put("nomePaginaUrl", pag.getNomePagina());
 		document.put("idPost", post.getIdPost());
 		document.put("likes", post.getLikes());
 		document.put("comments", post.getComments());
@@ -75,6 +76,21 @@ public class FacebookDao {
         
         // $group operation
         BasicDBObject groupFields = new BasicDBObject( "_id", "$nomePagina");
+        groupFields.put("sum", new BasicDBObject( "$sum", "$reactions"));
+        groupFields.put("tipo", new BasicDBObject("$first", "$tipoRede"));
+
+        BasicDBObject group = new BasicDBObject("$group", groupFields);
+
+        // run aggregation
+        AggregationOutput output = collection.aggregate( group );
+        
+            return output;
+    }
+    
+    public AggregationOutput buscarTodosPortaisSemFiltroNomeUrl(){
+        
+        // $group operation
+        BasicDBObject groupFields = new BasicDBObject( "_id", "$nomePaginaUrl");
         groupFields.put("sum", new BasicDBObject( "$sum", "$reactions"));
         groupFields.put("tipo", new BasicDBObject("$first", "$tipoRede"));
 

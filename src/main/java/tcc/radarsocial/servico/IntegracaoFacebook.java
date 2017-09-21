@@ -6,9 +6,12 @@ import java.util.List;
 
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.restfb.json.JsonObject;
+import com.restfb.types.Page;
 import com.restfb.types.Post;
+import com.restfb.types.User;
 
 import tcc.radarsocial.dao.FacebookDao;
 import tcc.radarsocial.model.Pagina;
@@ -26,6 +29,10 @@ public class IntegracaoFacebook extends DefaultFacebookClient{
 	public void retornaJson(String paginaFacebook) throws ParseException {
 //		JsonObject fetchObjectsResults =  this.fetchObjects(Arrays.asList("bbcbrasil/feeds"),JsonObject.class, Parameter.with("fields","likes.summary(true)"));
 		JsonObject pagina =  this.fetchObjects(Arrays.asList(paginaFacebook),JsonObject.class, Parameter.with("fields","id,name"));
+		
+		JsonObject pagina_fan =  this.fetchObjects(Arrays.asList(paginaFacebook),JsonObject.class, Parameter.with("fields","fan_count"));
+		
+		int count_likes_page = pagina_fan.getJsonObject(paginaFacebook).getInt("fan_count");
 		
 		String nomePagina = pagina.getJsonObject(paginaFacebook).getString("name");
 		int id = pagina.getJsonObject(paginaFacebook).getInt("id");
@@ -50,6 +57,7 @@ public class IntegracaoFacebook extends DefaultFacebookClient{
                  
                  pag.setIdPagina(id);
                  pag.setNome(nomePagina);
+                 pag.setNomePagina(paginaFacebook);
                  
                  postFacebook.setIdPost(post.getId());
                  postFacebook.setLikes(likes);
