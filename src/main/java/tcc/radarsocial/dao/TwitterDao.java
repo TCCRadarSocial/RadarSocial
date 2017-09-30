@@ -64,16 +64,29 @@ public class TwitterDao {
 		
 		if(link.isEmpty() && portal.isEmpty()){
 			match = (BasicDBObject) JSON.parse("{ \"$match\":"
-				+ "{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} }}}");
+				+ "{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} }}}");
 		}
 		else if(!link.isEmpty() && portal.isEmpty()){
 			match = (BasicDBObject) JSON.parse("{ \"$match\": {\"$and\": ["
-				+ "{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"link\": \""+link+"\"}]}}");
+				+ "{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"link\": \""+link+"\"}]}}");
 		}
 		else if(!portal.isEmpty()){
 			match = (BasicDBObject) JSON.parse("{ \"$match\": {\"$and\": ["
-				+ "{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"nomeTwitter\": \""+portal+"\"}]}}");
+				+ "{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"nomeTwitter\": \""+portal+"\"}]}}");
 		}
+		
+//		if(link.isEmpty() && portal.isEmpty()){
+//			match = (BasicDBObject) JSON.parse("{ \"$match\":"
+//				+ "{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} }}}");
+//		}
+//		else if(!link.isEmpty() && portal.isEmpty()){
+//			match = (BasicDBObject) JSON.parse("{ \"$match\": {\"$and\": ["
+//				+ "{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"link\": \""+link+"\"}]}}");
+//		}
+//		else if(!portal.isEmpty()){
+//			match = (BasicDBObject) JSON.parse("{ \"$match\": {\"$and\": ["
+//				+ "{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"nomeTwitter\": \""+portal+"\"}]}}");
+//		}
 		
 		// $group operation
 		DBObject groupFields = new BasicDBObject( "_id", "$nomeTwitter");
@@ -103,7 +116,9 @@ public class TwitterDao {
 		}
 		
 		if(!dataInicial.isEmpty() && !dataFinal.isEmpty()){
-			clauseData = (DBObject) JSON.parse("{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
+			clauseData = (DBObject) JSON.parse("{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
+//			clauseData = (DBObject) JSON.parse("{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
+			
 			and.add(clauseData);
 		}
 		
@@ -119,7 +134,7 @@ public class TwitterDao {
 		
 		DBObject query = new BasicDBObject("$and", and);
 		
-		DBCursor cursor = collection.find(query);
+		DBCursor cursor = collection.find(query).sort(new BasicDBObject("dataCriacao",1));
 		
 		return cursor;
 	}

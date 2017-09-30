@@ -110,16 +110,30 @@ public class FacebookDao {
 		
 		if(link.isEmpty() && portal.isEmpty()){
 			match = (BasicDBObject) JSON.parse("{ \"$match\":"
-				+ "{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} }}}");
+				+ "{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} }}}");
 		}
 		else if(!link.isEmpty() && portal.isEmpty()){
 			match = (BasicDBObject) JSON.parse("{ \"$match\": {\"$and\": ["
-				+ "{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"link\": \""+link+"\"}]}}");
+				+ "{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"link\": \""+link+"\"}]}}");
 		}
 		else if(!portal.isEmpty()){
 			match = (BasicDBObject) JSON.parse("{ \"$match\": {\"$and\": ["
-				+ "{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"nomePagina\": \""+portal+"\"}]}}");
+				+ "{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"nomePagina\": \""+portal+"\"}]}}");
 		}
+		
+//		if(link.isEmpty() && portal.isEmpty()){
+//			match = (BasicDBObject) JSON.parse("{ \"$match\":"
+//				+ "{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} }}}");
+//		}
+//		else if(!link.isEmpty() && portal.isEmpty()){
+//			match = (BasicDBObject) JSON.parse("{ \"$match\": {\"$and\": ["
+//				+ "{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"link\": \""+link+"\"}]}}");
+//		}
+//		else if(!portal.isEmpty()){
+//			match = (BasicDBObject) JSON.parse("{ \"$match\": {\"$and\": ["
+//				+ "{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"nomePagina\": \""+portal+"\"}]}}");
+//		}
+		
 		
 		// $group operation
 		BasicDBObject groupFields = new BasicDBObject( "_id", "$nomePagina");
@@ -149,7 +163,9 @@ public class FacebookDao {
 		}
 		
 		if(!dataInicial.isEmpty() && !dataFinal.isEmpty()){
-			clauseData = (BasicDBObject) JSON.parse("{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
+			clauseData = (BasicDBObject) JSON.parse("{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
+//			clauseData = (BasicDBObject) JSON.parse("{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
+			
 			and.add(clauseData);
 		}
 		
@@ -165,7 +181,7 @@ public class FacebookDao {
 		
 		BasicDBObject query = new BasicDBObject("$and", and);
 		
-		DBCursor cursor = collection.find(query);
+		DBCursor cursor = collection.find(query).sort(new BasicDBObject("dataCriacao",1));
 		
 		return cursor;
 	}
