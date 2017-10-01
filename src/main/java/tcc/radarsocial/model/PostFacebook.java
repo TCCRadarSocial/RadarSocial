@@ -10,6 +10,13 @@ public class PostFacebook {
 	private int comments;
 	private int likes;
 	private int reactions;
+	private int reactionsLove;
+	private int reactionsLike;
+	private int reactionsHaha;
+	private int reactionsWow;
+	private int reactionsSad;
+	private int reactionsAngry;
+	private int reactionsThankful;
 	private String imagem;
 	private String link;
 	private String mensagem;
@@ -56,6 +63,50 @@ public class PostFacebook {
 	}
 	public void setReactions(int reactions) {
 		this.reactions = reactions;
+	}
+	
+	
+	public int getReactionsLove() {
+		return reactionsLove;
+	}
+	public void setReactionsLove(int reactionsLove) {
+		this.reactionsLove = reactionsLove;
+	}
+	public int getReactionsLike() {
+		return reactionsLike;
+	}
+	public void setReactionsLike(int reactionsLike) {
+		this.reactionsLike = reactionsLike;
+	}
+	public int getReactionsHaha() {
+		return reactionsHaha;
+	}
+	public void setReactionsHaha(int reactionsHaha) {
+		this.reactionsHaha = reactionsHaha;
+	}
+	public int getReactionsWow() {
+		return reactionsWow;
+	}
+	public void setReactionsWow(int reactionsWow) {
+		this.reactionsWow = reactionsWow;
+	}
+	public int getReactionsSad() {
+		return reactionsSad;
+	}
+	public void setReactionsSad(int reactionsSad) {
+		this.reactionsSad = reactionsSad;
+	}
+	public int getReactionsAngry() {
+		return reactionsAngry;
+	}
+	public void setReactionsAngry(int reactionsAngry) {
+		this.reactionsAngry = reactionsAngry;
+	}
+	public int getReactionsThankful() {
+		return reactionsThankful;
+	}
+	public void setReactionsThankful(int reactionsThankful) {
+		this.reactionsThankful = reactionsThankful;
 	}
 	public String getImagem() {
 		return imagem;

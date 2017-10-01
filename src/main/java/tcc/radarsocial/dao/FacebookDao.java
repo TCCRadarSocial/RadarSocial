@@ -43,6 +43,13 @@ public class FacebookDao {
 		document.put("comments", post.getComments());
 		document.put("shares", post.getShares());
 		document.put("reactions", post.getReactions());
+		document.put("reactionLove", post.getReactionsLove());
+		document.put("reactionLike", post.getReactionsLike());
+		document.put("reactionHaha", post.getReactionsHaha());
+		document.put("reactionWow", post.getReactionsWow());
+		document.put("reactionSad", post.getReactionsSad());
+		document.put("reactionAngry", post.getReactionsAngry());
+		document.put("reactionThankful", post.getReactionsThankful());
 		document.put("imagem", post.getImagem());
 		document.put("link", post.getLink());
 		document.put("mensagem", post.getMensagem());
