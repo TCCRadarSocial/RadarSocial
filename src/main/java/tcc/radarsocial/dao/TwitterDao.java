@@ -34,7 +34,7 @@ public class TwitterDao {
 		document.put("favorites", tweet.getFavorites());
 		document.put("imagem", tweet.getImagem());
 		document.put("link", tweet.getLink());
-		document.put("texto", tweet.getTexto());
+		document.put("mensagem", tweet.getTexto());
 		document.put("tipoRede", "twitter");
 		
 

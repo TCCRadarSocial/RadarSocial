@@ -49,8 +49,11 @@ public class FeedsDao {
 		}
 			
 		DBObject query = new BasicDBObject("$and", and);
-		
-		DBCursor cursor = collection.find(query).sort(new BasicDBObject(orderBy, -1));
+		DBCursor cursor = null;
+		if(orderBy.equals("mensagem"))
+			cursor = collection.find(query).sort(new BasicDBObject(orderBy, 1));	
+		else
+			cursor = collection.find(query).sort(new BasicDBObject(orderBy, -1));
 		
 		return cursor;
 	}
