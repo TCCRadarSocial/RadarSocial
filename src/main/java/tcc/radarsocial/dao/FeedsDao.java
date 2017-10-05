@@ -16,11 +16,12 @@ public class FeedsDao {
 
 	DBCollection collection = ConnectionFactory.connectDB().getCollection("FeedsMetricas");
 	
-	public DBCursor buscaPorFiltro(String portal, String dataInicial, String dataFinal,String redeSocial, String orderBy) throws ParseException{
+	public DBCursor buscaPorFiltro(String portal, String dataInicial, String dataFinal,String redeSocial, String orderBy, String palavraChave) throws ParseException{
 		
 		DBObject clausePortal = null;
 		DBObject clauseData = null;
 		DBObject clauseRede = null;
+		DBObject clausePalavraChave = null;
 		
 		BasicDBList and = new BasicDBList();
 				
@@ -47,6 +48,11 @@ public class FeedsDao {
 			clauseData = (DBObject) JSON.parse("{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
 			and.add(clauseData);
 		}
+		
+		if(!palavraChave.equals("")){
+			clausePalavraChave = (DBObject) JSON.parse("{ \"mensagem\" :  {\"$regex\": \""+palavraChave+"\",\"$options\": \"i\"} }"); 
+			and.add(clausePalavraChave);
+		}
 			
 		DBObject query = new BasicDBObject("$and", and);
 		DBCursor cursor = null;
@@ -54,7 +60,7 @@ public class FeedsDao {
 			cursor = collection.find(query).sort(new BasicDBObject(orderBy, 1));	
 		else
 			cursor = collection.find(query).sort(new BasicDBObject(orderBy, -1));
-		
+				
 		return cursor;
 	}
 	

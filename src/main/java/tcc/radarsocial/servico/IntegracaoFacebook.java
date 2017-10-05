@@ -70,7 +70,6 @@ public class IntegracaoFacebook extends DefaultFacebookClient{
                  pag.setIdPagina(id);
                  pag.setNome(nomePagina);
                  pag.setNomePagina(paginaFacebook);
-                 
                  postFacebook.setIdPost(post.getId());
                  postFacebook.setLikes(likes);
                  postFacebook.setComments(comentarios);

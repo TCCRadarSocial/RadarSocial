@@ -44,7 +44,12 @@ public class Principal {
 		            jsonobj.put("portal", res.get("_id"));
 		            arrayTwitter.put(jsonobj);
 		        }
-		    	
+		    	for(int i=0;i<arrayTwitter.length();i++)
+	            {
+		    		JSONObject json = arrayTwitter.getJSONObject(i);
+		    		System.out.println(json.get("portal"));
+		    		executeIntegracaoTwitter(json.get("portal").toString());
+	            }
 		    	for(int i=0;i<arrayFace.length();i++)
 	            {
 		    		JSONObject json = arrayFace.getJSONObject(i);
@@ -52,12 +57,7 @@ public class Principal {
 		    		executeIntegracaoFacebook(json.get("portal").toString());
 	            }
 		    	
-		    	for(int i=0;i<arrayTwitter.length();i++)
-	            {
-		    		JSONObject json = arrayTwitter.getJSONObject(i);
-		    		System.out.println(json.get("portal"));
-		    		executeIntegracaoTwitter(json.get("portal").toString());
-	            }
+		    	
 		    }
 		});
 //		try {

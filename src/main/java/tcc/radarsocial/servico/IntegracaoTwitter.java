@@ -45,9 +45,14 @@ public class IntegracaoTwitter {
 		
 		for(Status st : status){
 			
+			if(!st.getUser().getName().equals("Patricia Ramos")){
+			System.out.println("status"+st.getAccessLevel());
+			
 			twitterObj.setIdTwitter(st.getUser().getId());
 			twitterObj.setNome(st.getUser().getName());
 			
+
+            System.out.println("twitter::"+st.getUser().getName());
 			tweet.setIdTweet(st.getId());
 			tweet.setTexto(st.getText());
 			tweet.setRetweets(st.getRetweetCount());
@@ -64,6 +69,7 @@ public class IntegracaoTwitter {
 			
 			TwitterDao dao = new TwitterDao();
 			dao.gravarDadosTwitter(twitterObj,tweet);
+			}
 		}
 		
 	}
