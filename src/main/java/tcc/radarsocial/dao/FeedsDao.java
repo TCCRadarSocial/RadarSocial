@@ -132,7 +132,7 @@ public class FeedsDao {
 		BasicDBObject groupTwitter = new BasicDBObject("$group", groupFieldsTwitter);
 		
 		//sort
-		DBObject sortFields = new BasicDBObject("dataCriacao", 1);
+		DBObject sortFields = new BasicDBObject("_id", 1);
 		DBObject sort = new BasicDBObject("$sort", sortFields );
 		
 		// run aggregation
