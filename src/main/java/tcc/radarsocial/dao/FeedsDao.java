@@ -151,7 +151,7 @@ public class FeedsDao {
 		
 		String serialize = null;
 		if(!jsonFace.equals("") && !jsonTwitter.equals(""))
-			serialize = "[" + jsonTwitter + ", " + jsonFace + "]";
+			serialize = "[" + jsonFace + ", " + jsonTwitter + "]";
 		else
 			serialize = "";
 			
