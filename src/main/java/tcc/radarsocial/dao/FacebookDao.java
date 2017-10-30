@@ -67,7 +67,8 @@ public class FacebookDao {
 		FeedsDao feeds = new FeedsDao();
 		
 		DBCursor cursor = feeds.buscaPorFiltroPorLink(post.getLink().toString());
-		if(JSON.serialize(cursor) != "[ ]"){
+System.out.println(cursor.length());
+		if(cursor.length() > 0){
 			BasicDBObject searchQuery = new BasicDBObject().append("link", post.getLink().toString());
 			BasicDBObject updateFields = new BasicDBObject();
 			updateFields.append("likes", post.getLikes());

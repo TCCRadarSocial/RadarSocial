@@ -42,7 +42,7 @@ public class TwitterDao {
 		FeedsDao feeds = new FeedsDao();
 		
 		DBCursor cursor = feeds.buscaPorFiltroPorLink(tweet.getLink().toString());
-		if(JSON.serialize(cursor) != "[ ]"){
+		if(cursor.length() > 0){
 			BasicDBObject searchQuery = new BasicDBObject().append("link", tweet.getLink().toString());
 			BasicDBObject updateFields = new BasicDBObject();
 			updateFields.append("retweets", tweet.getRetweets());
