@@ -153,6 +153,19 @@ public class TwitterDao {
 		return cursor;
 	}
 	
+	public DBCursor buscaPorFiltroPorLink(String link) throws ParseException{
+		
+		BasicDBList and = new BasicDBList();
+		
+		DBObject clauseLink = new BasicDBObject("link", link); 
+		and.add(clauseLink);
+			
+		DBObject query = new BasicDBObject("$and", and);
+		
+		DBCursor cursor = collection.find(query);
+		
+		return cursor;
+	}
 	public void excluirRegistros(String nome){
 		
 		BasicDBObject query = new BasicDBObject();

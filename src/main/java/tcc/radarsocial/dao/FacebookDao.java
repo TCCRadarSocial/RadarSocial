@@ -52,6 +52,7 @@ public class FacebookDao {
 		document.put("reactionThankful", post.getReactionsThankful());
 		document.put("imagem", post.getImagem());
 		document.put("link", post.getLink());
+		System.out.println("link:"+post.getLink());
 		document.put("mensagem", post.getMensagem());
 		document.put("dataGravacao", new Date());
 		document.put("tipoRede", "facebook");
@@ -207,6 +208,20 @@ System.out.println(cursor.length());
 		BasicDBObject query = new BasicDBObject("$and", and);
 		
 		DBCursor cursor = collection.find(query).sort(new BasicDBObject("dataCriacao",1));
+		
+		return cursor;
+	}
+	
+	public DBCursor buscaPorFiltroPorLink(String link) throws ParseException{
+		
+		BasicDBList and = new BasicDBList();
+		
+		DBObject clauseLink = new BasicDBObject("link", link); 
+		and.add(clauseLink);
+			
+		DBObject query = new BasicDBObject("$and", and);
+		
+		DBCursor cursor = collection.find(query);
 		
 		return cursor;
 	}
