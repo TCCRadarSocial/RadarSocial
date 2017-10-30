@@ -64,12 +64,29 @@ public class FacebookDao {
 		
 		collection.insert(document);
 		
-//		FeedsDao feeds = new FeedsDao();
-//		
-//		DBCursor cursor = feeds.buscaPorFiltroPorLink(post.getLink().toString());
-//		if(JSON.serialize(cursor) != "[ ]")
-//			collectionFeeds.update(document,cursor.curr());
-//		else
+		FeedsDao feeds = new FeedsDao();
+		
+		DBCursor cursor = feeds.buscaPorFiltroPorLink(post.getLink().toString());
+		if(JSON.serialize(cursor) != "[ ]"){
+			BasicDBObject searchQuery = new BasicDBObject().append("link", post.getLink().toString());
+			BasicDBObject updateFields = new BasicDBObject();
+			updateFields.append("likes", post.getLikes());
+			updateFields.append("comments", post.getComments());
+			updateFields.append("shares", post.getShares());
+			updateFields.append("reactions", post.getReactions());
+			updateFields.append("reactionLove", post.getReactionsLove());
+			updateFields.append("reactionLike", post.getReactionsLike());
+			updateFields.append("reactionHaha", post.getReactionsHaha());
+			updateFields.append("reactionWow", post.getReactionsWow());
+			updateFields.append("reactionSad", post.getReactionsSad());
+			updateFields.append("reactionAngry", post.getReactionsAngry());
+			updateFields.append("reactionThankful", post.getReactionsThankful());
+			
+			BasicDBObject setQuery = new BasicDBObject();
+			setQuery.append("$set", updateFields);
+			collectionFeeds.update(searchQuery, setQuery);
+		}
+		else
 			collectionFeeds.insert(document);
 	}
 	public DBCursor buscarTodosDadosFacebook(){

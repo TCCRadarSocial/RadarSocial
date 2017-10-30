@@ -21,7 +21,7 @@ public class TwitterDao {
 	DBCollection collection = ConnectionFactory.connectDB().getCollection("TwitterMetricas");
 	DBCollection collectionFeeds = ConnectionFactory.connectDB().getCollection("FeedsMetricas");
 	
-	public void gravarDadosTwitter(Twitter twitter, Tweet tweet){
+	public void gravarDadosTwitter(Twitter twitter, Tweet tweet) throws ParseException{
 		
 		BasicDBObject document = new BasicDBObject();
 		document.put("idTwitter", twitter.getIdTwitter());
@@ -39,7 +39,21 @@ public class TwitterDao {
 		
 
 		collection.insert(document);
-		collectionFeeds.insert(document);
+		FeedsDao feeds = new FeedsDao();
+		
+		DBCursor cursor = feeds.buscaPorFiltroPorLink(tweet.getLink().toString());
+		if(JSON.serialize(cursor) != "[ ]"){
+			BasicDBObject searchQuery = new BasicDBObject().append("link", tweet.getLink().toString());
+			BasicDBObject updateFields = new BasicDBObject();
+			updateFields.append("retweets", tweet.getRetweets());
+			updateFields.append("favorites", tweet.getFavorites());
+			
+			BasicDBObject setQuery = new BasicDBObject();
+			setQuery.append("$set", updateFields);
+			collectionFeeds.update(searchQuery, setQuery);
+		}
+		else
+			collectionFeeds.insert(document);
 	}
 	
 	

@@ -3,6 +3,7 @@ package tcc.radarsocial.principal;
 import java.text.ParseException;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.mongodb.AggregationOutput;
@@ -48,7 +49,15 @@ public class Principal {
 	            {
 		    		JSONObject json = arrayTwitter.getJSONObject(i);
 		    		System.out.println(json.get("portal"));
-		    		executeIntegracaoTwitter(json.get("portal").toString());
+		    		try {
+						executeIntegracaoTwitter(json.get("portal").toString());
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 	            }
 		    	for(int i=0;i<arrayFace.length();i++)
 	            {
@@ -85,7 +94,7 @@ public class Principal {
 		}
 	}
 	
-	public static void executeIntegracaoTwitter(String twitter){
+	public static void executeIntegracaoTwitter(String twitter) throws ParseException{
 		IntegracaoTwitter intTwitter = new IntegracaoTwitter();
 		try {
 			intTwitter.buscarDadosTwitter(intTwitter.autenticar(), twitter);

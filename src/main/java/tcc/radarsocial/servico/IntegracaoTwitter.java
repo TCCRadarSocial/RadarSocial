@@ -1,5 +1,6 @@
 package tcc.radarsocial.servico;
 
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class IntegracaoTwitter {
 		return cb;
 	}
 	
-	public void buscarDadosTwitter(ConfigurationBuilder cb,String twitterProfile) throws TwitterException{
+	public void buscarDadosTwitter(ConfigurationBuilder cb,String twitterProfile) throws TwitterException, ParseException{
 		
 		TwitterFactory tf = new TwitterFactory(cb.build());
 		
