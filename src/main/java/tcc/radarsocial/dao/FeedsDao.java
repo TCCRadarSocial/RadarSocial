@@ -19,7 +19,7 @@ public class FeedsDao {
 //	DBCollection collectionFace = ConnectionFactory.connectDB().getCollection("FacebookMetricas");
 //	DBCollection collectionTwitter = ConnectionFactory.connectDB().getCollection("TwitterMetricas");
 	
-	public DBCursor buscaPorFiltro(String portal, String dataInicial, String dataFinal,String redeSocial, String orderBy, String palavraChave) throws ParseException{
+	public DBCursor buscaPorFiltro(String portal, String dataInicial, String dataFinal,String redeSocial, String orderBy, String tipoOrderBy, String palavraChave) throws ParseException{
 		
 		DBObject clausePortal = null;
 		DBObject clauseData = null;
@@ -61,9 +61,12 @@ public class FeedsDao {
 		DBCursor cursor = null;
 		if(orderBy.equals("mensagem"))
 			cursor = collection.find(query).sort(new BasicDBObject(orderBy, 1));	
-		else
-			cursor = collection.find(query).sort(new BasicDBObject(orderBy, -1));
-				
+		else{
+			if(tipoOrderBy.equals("desc"))
+				cursor = collection.find(query).sort(new BasicDBObject(orderBy, -1));
+			else if(tipoOrderBy.equals("asc"))
+				cursor = collection.find(query).sort(new BasicDBObject(orderBy, 1));
+		}	
 		return cursor;
 	}
 	
