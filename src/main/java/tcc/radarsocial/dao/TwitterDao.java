@@ -148,7 +148,7 @@ public class TwitterDao {
 		
 		DBObject query = new BasicDBObject("$and", and);
 		
-		DBCursor cursor = collection.find(query).sort(new BasicDBObject("dataCriacao",1));
+		DBCursor cursor = collectionFeeds.find(query).sort(new BasicDBObject("dataCriacao",1));
 		
 		return cursor;
 	}

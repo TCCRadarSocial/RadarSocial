@@ -135,16 +135,16 @@ System.out.println(cursor.length());
 		BasicDBObject match = null;
 		
 		if(link.isEmpty() && portal.isEmpty()){
-			match = (BasicDBObject) JSON.parse("{ \"$match\":"
-				+ "{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} }}}");
+			match = (BasicDBObject) JSON.parse("{ \"$match\": {\"$and\": ["
+				+ "{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"tipoRede\": \"facebook\"}]}}");
 		}
 		else if(!link.isEmpty() && portal.isEmpty()){
 			match = (BasicDBObject) JSON.parse("{ \"$match\": {\"$and\": ["
-				+ "{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"link\": \""+link+"\"}]}}");
+				+ "{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"link\": \""+link+"\"},{\"tipoRede\": \"facebook\"}]}}");
 		}
 		else if(!portal.isEmpty()){
 			match = (BasicDBObject) JSON.parse("{ \"$match\": {\"$and\": ["
-				+ "{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"nomePagina\": \""+portal+"\"}]}}");
+				+ "{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}} },{\"nomePagina\": \""+portal+"\"},{\"tipoRede\": \"facebook\"}]}}");
 		}
 		
 //		if(link.isEmpty() && portal.isEmpty()){
@@ -166,10 +166,12 @@ System.out.println(cursor.length());
 		groupFields.put("sum", new BasicDBObject( "$sum", "$reactions"));
 
 		BasicDBObject group = new BasicDBObject("$group", groupFields);
+		
+		
 
 		
 		// run aggregation
-		AggregationOutput output = collection.aggregate(match, group );
+		AggregationOutput output = collectionFeeds.aggregate(match, group );
 		
 			return output;
 		
@@ -209,8 +211,51 @@ System.out.println(cursor.length());
 		
 		DBCursor cursor = collection.find(query).sort(new BasicDBObject("dataCriacao",1));
 		
+		
 		return cursor;
 	}
+	
+	public DBCursor buscaPorFiltroFeeds(String portal, String dataInicial, String dataFinal, String link) throws ParseException{
+		
+		BasicDBObject clausePortal = null;
+		BasicDBObject clauseData = null;
+		BasicDBObject clauseLink = null;
+		BasicDBObject clauseTipoRede = null;
+		BasicDBList and = new BasicDBList();
+		
+		if(!portal.isEmpty()){
+			clausePortal = new BasicDBObject("nomePagina", portal); 
+			and.add(clausePortal);
+		}
+		
+		if(!dataInicial.isEmpty() && !dataFinal.isEmpty()){
+			clauseData = (BasicDBObject) JSON.parse("{ \"dataCriacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
+//			clauseData = (BasicDBObject) JSON.parse("{ \"dataGravacao\" : { \"$gte\" : { \"$date\" : \""+dataInicial+"\"} , \"$lte\" : { \"$date\" : \""+dataFinal+"\"}}}");
+			
+			and.add(clauseData);
+		}
+		
+		if(!link.isEmpty()){
+			clauseLink = new BasicDBObject("link", link); 
+			and.add(clauseLink);
+		}
+			
+		clauseTipoRede = new BasicDBObject("tipoRede", "facebook"); 
+		and.add(clauseTipoRede);
+
+//		clauseAggregatePortais = (DBObject) JSON.parse(buscarTodosPortais().toString());
+//		and.add(clauseAggregatePortais);
+		
+		
+		BasicDBObject query = new BasicDBObject("$and", and);
+		
+		DBCursor cursor = collectionFeeds.find(query).sort(new BasicDBObject("dataCriacao",1));
+		
+		
+		return cursor;
+	}
+	
+	
 	
 	public DBCursor buscaPorFiltroPorLink(String link) throws ParseException{
 		
